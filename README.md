@@ -24,7 +24,13 @@
 
  Além disso, implemente uma classe para testar a implementação das classes desenvolvidas.
 
+---
 
+6) Crie um arquivo chamado exemplo.txt com FileOutputStream e escreva “Olá Java”, após criar o arquivo compacte em .gz para isso utilize a classe GZIPOutputStream.
+
+---
+
+7) Implemente uma classe em Java chamada Compactar que utiliza as classes FileInputStream, FileOutputStream e GZIPOutputStream para compactar arquivos de uma pasta. O programa deve ser capaz de dado um path pelo usuário, compactar a última pasta desse path em um arquivo .gz
 
 
 
