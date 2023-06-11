@@ -1,4 +1,4 @@
-# exercicios_manipulacao_arquivos
+# Manipulação de Arquivos
 1)  Faça uma classe capaz de armazenar as informações de uma venda em um arquivo .csv, para isso os dados que devem ser gravados: (int) número da venda, (string) nome do item vendido, (int) quantidade, (double)preço, (enum) forma de pagamento (dinheiro, pix, crédito ou débito). Tais informações devem ser gravadas em um arquivo de saída do utilizando a classe FileWriter para escrever. (utilize o caracter de separação “,” entre os dados).
   Feito isso crie um novo programa capaz de ler o arquivo gerado, a leitura deve ser feita com a classe FileReader.
 
