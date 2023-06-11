@@ -14,7 +14,7 @@
 ---
 
 4) Crie uma classe chamada Produto em Java, com os atributos nome (String), código de identificação (int) e preco (double). Em seguida, implemente uma classe chamada Produtos que possui um ArrayList para armazenar objetos do tipo Produto. A classe Produtos deve possuir os seguintes métodos e atributos:
-- listar, adicionar, editar, remover e salvarEmArquivo, tal método deve salvar os dados dos produtos em um arquivo utilizando a classe FileWriter.
+- listar, adicionar, remover e salvarEmArquivo, tal método deve salvar os dados dos produtos em um arquivo utilizando a classe FileWriter.
 
  Ao fim, faça um método para testar a implementação.
 
