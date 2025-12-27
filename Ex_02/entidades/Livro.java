@@ -1,6 +1,13 @@
 package entidades;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+
 public class Livro {
+
 	private int codigo;
 	private String titulo;
 	private int numeroPaginas;
@@ -8,8 +15,8 @@ public class Livro {
 	private String editora;
 	private Classificacao classificacao;
 
-	public Livro(int codigo, String titulo, int numeroPaginas, String autor, String editora,
-			Classificacao classificacao) {
+	public Livro(int codigo, String titulo, int numeroPaginas,
+				 String autor, String editora, Classificacao classificacao) {
 		this.codigo = codigo;
 		this.titulo = titulo;
 		this.numeroPaginas = numeroPaginas;
@@ -18,56 +25,35 @@ public class Livro {
 		this.classificacao = classificacao;
 	}
 
-	public int getCodigo() {
-		return codigo;
-	}
+	public void gravarEmArquivo(Path caminho) {
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
+		try (BufferedWriter writer = Files.newBufferedWriter(
+				caminho,
+				StandardOpenOption.CREATE,
+				StandardOpenOption.APPEND)) {
 
-	public String getTitulo() {
-		return titulo;
-	}
+			String linha = codigo + "," +
+					titulo + "," +
+					numeroPaginas + "," +
+					autor + "," +
+					editora + "," +
+					classificacao;
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+			writer.write(linha);
+			writer.newLine();
 
-	public int getNumeroPaginas() {
-		return numeroPaginas;
-	}
-
-	public void setNumeroPaginas(int numeroPaginas) {
-		this.numeroPaginas = numeroPaginas;
-	}
-
-	public String getAutor() {
-		return autor;
-	}
-
-	public void setAutor(String autor) {
-		this.autor = autor;
-	}
-
-	public String getEditora() {
-		return editora;
-	}
-
-	public void setEditora(String editora) {
-		this.editora = editora;
-	}
-
-	public Classificacao getClassificacao() {
-		return classificacao;
-	}
-
-	public void setClassificacao(Classificacao classificacao) {
-		this.classificacao = classificacao;
+		} catch (IOException e) {
+			System.out.println("Erro ao gravar livro no arquivo: " + e.getMessage());
+		}
 	}
 
 	@Override
 	public String toString() {
-		return codigo + "," + titulo + "," + numeroPaginas + "," + autor + "," + editora + "," + classificacao;
+		return "Livro [codigo=" + codigo +
+				", titulo=" + titulo +
+				", paginas=" + numeroPaginas +
+				", autor=" + autor +
+				", editora=" + editora +
+				", classificacao=" + classificacao.getDescricao() + "]";
 	}
 }

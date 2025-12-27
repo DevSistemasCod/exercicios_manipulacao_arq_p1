@@ -1,17 +1,19 @@
 package entidade;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public class Venda {
-	private int numeroVenda;
+
+    private int numeroVenda;
     private String nomeItem;
     private int quantidade;
     private double preco;
     private FormaPagamento formaPagamento;
 
-    //Construtor
     public Venda(int numeroVenda, String nomeItem, int quantidade, double preco, FormaPagamento formaPagamento) {
         this.numeroVenda = numeroVenda;
         this.nomeItem = nomeItem;
@@ -20,63 +22,33 @@ public class Venda {
         this.formaPagamento = formaPagamento;
     }
 
-    public void gravarDadosEmArquivo() {
-        try {
-            FileWriter writer = new FileWriter("arquivo.csv", true); 
-            writer.write(numeroVenda + "," + nomeItem + "," + quantidade + "," + preco + "," + formaPagamento + "\n");
+    public void gravarEmArquivo(Path caminho) {
 
-            writer.close(); 
-        } catch (FileNotFoundException e) {
-			System.out.println("Erro ao gerar arquivo: "+e.getMessage());
-		} catch (IOException e) {
-			System.out.println("Excecao: "+e.getMessage()); }
+        try (BufferedWriter writer = Files.newBufferedWriter(
+                caminho,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.APPEND)) {
 
+            String linha = numeroVenda + "," +
+                    nomeItem + "," +
+                    quantidade + "," +
+                    preco + "," +
+                    formaPagamento;
+
+            writer.write(linha);
+            writer.newLine();
+
+        } catch (IOException e) {
+            System.out.println("Erro ao gravar venda no arquivo: " + e.getMessage());
+        }
     }
 
-    // Métodos getters e setters
-    public int getNumeroVenda() {
-        return numeroVenda;
+    @Override
+    public String toString() {
+        return "Venda [numeroVenda=" + numeroVenda +
+                ", nomeItem=" + nomeItem +
+                ", quantidade=" + quantidade +
+                ", preco=" + preco +
+                ", formaPagamento=" + formaPagamento.getDescricao() + "]";
     }
-
-    public void setNumeroVenda(int numeroVenda) {
-        this.numeroVenda = numeroVenda;
-    }
-
-    public String getNomeItem() {
-        return nomeItem;
-    }
-
-    public void setNomeItem(String nomeItem) {
-        this.nomeItem = nomeItem;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(double preco) {
-        this.preco = preco;
-    }
-
-    public FormaPagamento getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
-	@Override
-	public String toString() {
-		return "Venda [numeroVenda=" + numeroVenda + ", nomeItem=" + nomeItem + ", quantidade=" + quantidade
-				+ ", preco=" + preco + ", formaPagamento=" + formaPagamento + "]";
-	}
 }

@@ -1,51 +1,65 @@
 package entidades;
 
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Produtos {
+
 	private ArrayList<Produto> listaProdutos;
 
 	public Produtos() {
-		listaProdutos = new ArrayList<Produto>();
+		listaProdutos = new ArrayList<>();
 	}
 
-	public void adicionarProduto(Produto produto) {
-		if (produto != null) {
-			listaProdutos.add(produto);
-		}
+	public void adicionar(Produto produto) {
+		listaProdutos.add(produto);
 	}
 
-	public void removerProduto(int codigo) {
-		if (!listaProdutos.isEmpty()) {
-			for (int i = 0; i < listaProdutos.size(); i++) {
-				if (listaProdutos.get(i).getCodigo() == codigo) {
-					listaProdutos.remove(listaProdutos.get(i));
-				}
-			}
+	public void listar() {
+		if (listaProdutos.isEmpty()) {
+			System.out.println("Nenhum produto cadastrado.");
 		} else {
-			System.out.println("Lista vazia !");
-		}
-	}
-
-	public void listarProdutos() {
-		for (Produto produto : listaProdutos) {
-			System.out.println(produto.toString());
-		}
-	}
-
-	public void salvarEmArquivo(String nomeArquivo) {
-		try (FileWriter writer = new FileWriter(nomeArquivo)) {
-			for (Produto produto : listaProdutos) {
-				writer.write(produto.toString() + "\n");
+			for (Produto p : listaProdutos) {
+				System.out.println(p);
 			}
-			System.out.println("Dados dos produtos foram salvos no arquivo: " + nomeArquivo);
-		} catch (FileNotFoundException e) {
-			System.err.println("Excecao Capturada: " + e.getMessage());
+		}
+	}
+
+	public void remover(int codigo) {
+		Iterator<Produto> iterator = listaProdutos.iterator();
+
+		while (iterator.hasNext()) {
+			Produto p = iterator.next();
+			if (p.getCodigo() == codigo) {
+				iterator.remove();
+				System.out.println("Produto removido com sucesso.");
+				return;
+			}
+		}
+
+		System.out.println("Produto com código " + codigo + " não encontrado.");
+	}
+
+	public void salvarEmArquivo(Path caminho) {
+
+		try (BufferedWriter writer = Files.newBufferedWriter(caminho)) {
+
+			for (Produto p : listaProdutos) {
+				String linha = p.getCodigo() + "," +
+						p.getNome() + "," +
+						p.getPreco();
+				writer.write(linha);
+				writer.newLine();
+			}
+
+			System.out.println("Produtos salvos em arquivo com sucesso.");
+
 		} catch (IOException e) {
-			System.out.println("Erro ao salvar os dados dos produtos no arquivo. " + e.getMessage());
+			System.out.println("Erro ao salvar produtos no arquivo: " + e.getMessage());
 		}
 	}
 }
